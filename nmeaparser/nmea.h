@@ -10,20 +10,20 @@ class NMEAHandler
 {
   public:
     void GotChar(char ch);
-    char IsValid() { return isValid; }
-    char LatNS() { return gpsLatNS; }
-    char LonEW() { return gpsLonEW; }
+    char IsValid() { return (isValid=='I')?'I':'N'; }
+    char LatNS() { return (gpsLatNS=='N')?'N':'S'; }
+    char LonEW() { return (gpsLonEW=='E')?'E':'W'; }
     char* Lat() { return gpsLat; }
     char* Lon() { return gpsLon; }
     char* Fix() { return fixTime; }
 
   protected:
-    char gpsLat[NMEAHandler_GPSLL_LENGTH] = { '\0' };
-    char gpsLon[NMEAHandler_GPSLL_LENGTH] = { '\0' };
-    char gpsLatNS = '\0';
-    char gpsLonEW = '\0';
+    char gpsLat[NMEAHandler_GPSLL_LENGTH] = { 0x30 };
+    char gpsLon[NMEAHandler_GPSLL_LENGTH] = { 0x30 };
+    char gpsLatNS = 0x30;
+    char gpsLonEW = 0x30;
 
-    char fixTime[7] = { '\0' };
+    char fixTime[7] = { 0x30 };
     char isValid = 'N';
   private:
     uint8_t cmdstate = 0;
