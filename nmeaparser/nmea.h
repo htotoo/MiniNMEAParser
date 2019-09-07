@@ -2,6 +2,7 @@
 #define __NMEAHANDLER_H__
 
 #include <stdint.h>
+#include <cstring>
 #include <unistd.h>
 
 #define NMEAHandler_GPSLL_LENGTH 12
@@ -9,13 +10,14 @@
 class NMEAHandler
 {
   public:
-    void GotChar(char ch);
+    uint8_t GotChar(char ch);
     char IsValid() { return (isValid=='I')?'I':'N'; }
     char LatNS() { return (gpsLatNS=='N')?'N':'S'; }
     char LonEW() { return (gpsLonEW=='E')?'E':'W'; }
     char* Lat() { return gpsLat; }
     char* Lon() { return gpsLon; }
     char* Fix() { return fixTime; }
+    char* SpeedKmph() { return speedKmph; }
 
   protected:
     char gpsLat[NMEAHandler_GPSLL_LENGTH] = { 0x30 };
@@ -24,6 +26,7 @@ class NMEAHandler
     char gpsLonEW = 0x30;
 
     char fixTime[7] = { 0x30 };
+    char speedKmph[9] = { 0x30 };
     char isValid = 'N';
   private:
     uint8_t cmdstate = 0;
